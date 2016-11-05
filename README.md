@@ -1,6 +1,6 @@
 # Spark Assignment
 
-Fork this project, complete the assigned objectives then submit your work back to us as a **Pull Request** 
+Fork this project, complete the assigned objectives.  
 
 This repo scaffolds a basic Apache Spark project for your convenience. Please feel free to edit it as you see fit
 Or not use it at all, if you prefer to use a different Spark version or language such as `SparkR` or `pyspark`
