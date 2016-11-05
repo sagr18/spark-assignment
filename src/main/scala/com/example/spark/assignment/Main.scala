@@ -1,23 +1,29 @@
 package com.example.spark.assignment
 
-import org.apache.spark.sql.SQLContext
-import org.apache.spark.{SparkConf, SparkContext}
+import java.sql.Timestamp
 
-/**
-  * Created by echen on 11/4/16.
-  */
+import org.apache.spark.sql.SparkSession
+
 object Main extends App {
 
-  val conf = new SparkConf().setAppName("homework").setMaster("local")
-  val sc = new SparkContext(conf)
-  val sqlContext = new SQLContext(sc)
+  // Use this to your advantage
+  case class StockPrice(ticker: String, close: Double, high: Double, low: Double, volume: Long, date: Timestamp)
 
-  val df = sqlContext.read
-    .format("com.databricks.spark.csv")
-    .option("header", "true")
-    .option("inferSchema", "true")
-    .load("stock_prices.csv")
+  // Setup
+  val sparkSession = SparkSession.builder().appName("assignment").master("local").getOrCreate()
 
-  println(df.count())
+  import sparkSession.implicits._
+
+  // You can choose to use any one of these 3 distributed data structures
+  val dataframe = sparkSession.read.option("header", "true").option("inferSchema", "true").csv("stock_prices.csv")
+  val dataset = dataframe.as[StockPrice]
+  val rdd = dataset.rdd
+
+  dataframe.createOrReplaceTempView("stock_prices")
+  dataframe.cache()
+
+  /*
+  Put Your Solutions Here
+   */
 
 }
